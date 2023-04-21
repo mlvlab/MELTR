@@ -1,0 +1,25 @@
+{
+    "type": "qaoe",
+    
+    "dataset": "tgif", 
+    "task": "tgif-frame", 
+    "annotation_file": "txt_tgif-frame.json",
+    
+    "size_img": 224,
+    "size_txt": 25,
+    "size_vocab": 1540,
+    
+    "size_epoch": 20, 
+    "size_batch": 5, 
+
+    "lr": 3e-5, 
+    "decay": 1e-4, 
+
+    "meltr_lr": 1e-4, 
+    "meltr_decay": 1e-4, 
+    "max_grad_norm": 12,
+    "auxgrad_every": 3,
+    "gamma": 0.1,
+    
+    "path_ckpt": "./checkpoint/ckpt_violet_pretrain.pt"
+}

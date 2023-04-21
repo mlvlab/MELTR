@@ -1,0 +1,25 @@
+{
+    "type": "qamc",
+    
+    "dataset": "tgif", 
+    "task": "tgif-transition", 
+    "annotation_file": "txt_tgif-transition.json",
+    
+    "size_img": 224,
+    "size_txt": 40,
+    "size_option": 5,
+    
+    "size_epoch": 20, 
+    "size_batch": 3, 
+
+    "lr": 3e-6, 
+    "decay": 1e-3, 
+
+    "meltr_lr": 1e-4, 
+    "meltr_decay": 1e-4, 
+    "max_grad_norm": 12,
+    "auxgrad_every": 3,
+    "gamma": 0.1,
+    
+    "path_ckpt": "./checkpoint/ckpt_violet_pretrain.pt"
+}

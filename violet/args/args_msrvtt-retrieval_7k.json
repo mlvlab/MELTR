@@ -1,0 +1,25 @@
+{
+    "type": "retrieval",
+    
+    "dataset": "msrvtt", 
+    "task": "msrvtt-retrieval", 
+    "train_annotation": "./_data/msrvtt/train_7k.json",
+    "test_annotation": "./_data/msrvtt/test.json",
+    
+    "size_img": 224,
+    "size_txt": 25,
+    
+    "size_epoch": 20, 
+    "size_batch": 5, 
+
+    "lr": 3e-6, 
+    "decay": 1e-3, 
+
+    "meltr_lr": 3e-6, 
+    "meltr_decay": 1e-3, 
+    "max_grad_norm": 12,
+    "auxgrad_every": 3,
+    "gamma": 0.1,
+    
+    "path_ckpt": "./checkpoint/ckpt_violet_pretrain.pt"
+}
