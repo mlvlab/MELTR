@@ -37,15 +37,15 @@ def get_args(description='UniVL on Retrieval Task'):
     parser.add_argument("--do_train", action='store_true', help="Whether to run training.")
     parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev set.")
 
-    parser.add_argument('--youcook_train_csv',     type=str, default='data/youcookii_train.csv', help='')
-    parser.add_argument('--youcook_val_csv',       type=str, default='data/youcookii_val.csv', help='')
-    parser.add_argument('--youcook_features_path', type=str, default='data/youcookii_videos_features.pickle', help='feature path')
-    parser.add_argument('--youcook_data_path',     type=str, default='data/youcookii_data.transcript.pickle', help='data pickle file path')
+    parser.add_argument('--youcook_train_csv',     type=str, default='/data/project/rw/youcookii_feature/youcookii_train.csv', help='')
+    parser.add_argument('--youcook_val_csv',       type=str, default='/data/project/rw/youcookii_feature/youcookii_val.csv', help='')
+    parser.add_argument('--youcook_features_path', type=str, default='/data/project/rw/youcookii_feature/youcookii_videos_features.pickle', help='feature path')
+    parser.add_argument('--youcook_data_path',     type=str, default='/data/project/rw/youcookii_feature/youcookii_data.transcript_v4.pickle', help='data pickle file path')
 
-    parser.add_argument('--VTT_train_csv',         type=str, default='data/MSRVTT_train.9k.csv', help='')
-    parser.add_argument('--VTT_val_csv',           type=str, default='data/MSRVTT_JSFUSION_test.csv', help='')
-    parser.add_argument('--VTT_data_path',         type=str, default='data/MSRVTT_data.json', help='data pickle file path')
-    parser.add_argument('--VTT_features_path',     type=str, default='data/msrvtt_videos_features.pickle', help='feature path')
+    parser.add_argument('--VTT_train_csv',         type=str, default='/data/project/rw/msrvtt_feature/data/MSRVTT_train.9k.csv', help='')
+    parser.add_argument('--VTT_val_csv',           type=str, default='/data/project/rw/msrvtt_feature/data/MSRVTT_JSFUSION_test.csv', help='')
+    parser.add_argument('--VTT_data_path',         type=str, default='/data/project/rw/msrvtt_feature/data/MSRVTT_data.json', help='data pickle file path')
+    parser.add_argument('--VTT_features_path',     type=str, default='/data/project/rw/msrvtt_feature/data/msrvtt_videos_features.pickle', help='feature path')
 
     parser.add_argument("--init_model", default="./univl.pretrained.bin", type=str, required=False, help="Initial model.")
 
@@ -576,15 +576,13 @@ def main_worker(gpu, ngpus_per_node, args):
         print("Not Distributed")
     args = set_seed_logger(args)
 
-
-
     device, n_gpu = init_device(args, args.local_rank)
 
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
 
     model = init_model(args, device, n_gpu, args.local_rank)
 
-    if args.eval_task[1]:
+    if args.eval_task == "caption":
         nlgEvalObj = NLGEval(no_overlap=False, no_skipthoughts=True, no_glove=True, metrics_to_omit=None)
     else:
         nlgEvalObj = None
@@ -617,15 +615,14 @@ def main_worker(gpu, ngpus_per_node, args):
         model = load_model(-1, args, n_gpu, device, model_file=args.init_model)
         if args.local_rank == 0:
 
-            if args.eval_task[0]:
+            if args.eval_task == "retrieval":
                 R1, R5, R10, MR = eval_retrieval_epoch(model, test_retrieval_dataloader, device, n_gpu, logger)
                 print("Retrieval : R1 : {:0.4f}, R5 : {:0.4f}, R10 : {:0.4f}, MR : {:0.4f}".format(R1, R5, R10, MR))
-            if args.eval_task[1]:
+            if args.eval_task == "caption":
                 Bleu_1, Bleu_2, Bleu_3, Bleu_4, METEOR, ROUGE_L, CIDEr = eval_caption_epoch(args, model, test_caption_dataloader, tokenizer, device, n_gpu, logger, nlgEvalObj=nlgEvalObj)
                 print("Caption : Bleu_1 : {:0.4f}, Bleu_2 : {:0.4f}, Bleu_3 : {:0.4f}, Bleu_4 : {:0.4f}, METEOR : {:0.4f}, ROUGE_L : {:0.4f}, CIDEr : {:0.4f}"
                       .format(Bleu_1, Bleu_2, Bleu_3, Bleu_4, METEOR, ROUGE_L, CIDEr))
-
-
+        return
 
 
 
@@ -659,7 +656,7 @@ def main_worker(gpu, ngpus_per_node, args):
             print("Epoch {}/{} Finished, Train Loss: {:0.4f}".format(epoch + 1, args.epochs, tr_loss.avg))
             save_model(epoch, args, model)
 
-            if epoch >= args.eval_start[0] and (epoch % args.eval_term[0] == 0 and args.eval_task[0]):
+            if epoch >= args.eval_start[0] and (epoch % args.eval_term[0] == 0 and args.eval_task == "retrieval"):
                 R1, R5, R10, MR = eval_retrieval_epoch(model, test_retrieval_dataloader, device, n_gpu, logger)
                 if best_score[0][0] <= R1:
                     save_model(epoch, args, model, type_name="best")
@@ -669,7 +666,7 @@ def main_worker(gpu, ngpus_per_node, args):
                     best_score[0][3] = MR
 
                 print("Retrieval : Best R1 Accuracy : {:0.4f}, Current R1 Accuracy: {:0.4f}".format(best_score[0][0], R1))
-            if epoch >= args.eval_start[1] and (epoch % args.eval_term[1] == 0 and args.eval_task[1]):
+            if epoch >= args.eval_start[1] and (epoch % args.eval_term[1] == 0 and args.eval_task == "caption"):
                 Bleu_1, Bleu_2, Bleu_3, Bleu_4, METEOR, ROUGE_L, CIDEr = eval_caption_epoch(args, model, test_caption_dataloader, tokenizer, device, n_gpu, logger, nlgEvalObj=nlgEvalObj)
 
                 if best_score[1][4] <= Bleu_1:

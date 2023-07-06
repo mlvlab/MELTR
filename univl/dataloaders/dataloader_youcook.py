@@ -107,7 +107,7 @@ class Youcook_Train(Dataset):
             # words = []  # None
             if self.downstream == "retrieval":
                 words = self.tokenizer.tokenize(data_dict['text'][ind])
-            elif self.downstream =="caption":
+            elif self.downstream == "caption":
                 words = self.tokenizer.tokenize(data_dict['transcript'][ind])
             else:
                 raise ValueError("Please Select Downstream.")
