@@ -7,9 +7,9 @@ Our code is implemented under [UniVL](https://github.com/microsoft/UniVL) enviro
 ## Datasets
 
 We use two datasets (msrvtt, youcook). UniVL also provides downstream datasets and annotation files [here](https://github.com/microsoft/UniVL/blob/main/dataloaders/README.md).
-Annotation files of msrvtt that we used can be found [here](https://drive.google.com/drive/u/0/folders/1JmbjHymmALXzsowKjpNheRo3XApAe8Yh).
+Annotation files of msrvtt that we used can be found [here](https://drive.google.com/drive/folders/1akmVjM6vcjlwuQj7oIN9T_Gtb0bvr5iV).
 
-Note: As mentioned in UniVL, transcript is not publicly available due to legal issues.
+Note: As mentioned in UniVL, a transcript is not publicly available due to legal issues.
 
 
 
