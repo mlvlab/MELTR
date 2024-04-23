@@ -11,7 +11,7 @@ Our code is implemented under [All-in-one](https://github.com/showlab/all-in-one
 
 We use MSRVTT for text-to-video retrieval and All-in-one also provides downstream datasets [here](https://github.com/showlab/all-in-one/blob/main/DATA.md).
 
-Annotation files of MSRVTT can be found [here]([https://drive.google.com/drive/u/0/folders/1QVftWofQwlyIFDWZtl8jrt76LQbTIkX0](https://drive.google.com/drive/folders/1nXWGRKjm6fwYly4YCgdKu7XtV2IXGUix)).
+Annotation files of MSRVTT can be found [here](https://drive.google.com/drive/folders/1nXWGRKjm6fwYly4YCgdKu7XtV2IXGUix).
 
 ### Pretrained checkpoint
 
