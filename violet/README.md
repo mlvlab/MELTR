@@ -11,7 +11,7 @@ Our code is implemented under [Violet](https://github.com/tsujuifu/pytorch_viole
 
 We use three datasets (MSRVTT, TGIF, and MSVD). Violet also provides downstream datasets and annotation files [here](https://drive.google.com/drive/u/2/folders/1BisJHVUOLeHWmnAeMrCHvy1BP9XBXNkQ). 
 
-Annotation files of msrvtt can be found [here](https://drive.google.com/drive/u/0/folders/11IHET_-sI7w5gq1f62EOEDWymv5RRhSi).
+Annotation files of msrvtt can be found [here](https://drive.google.com/drive/folders/1rVnRBZ45g96TlTnxbFBBP2AVfOB-Tf3J).
 
 Download them and run the below command to extract VQ tokens for MVM.
 
@@ -23,7 +23,7 @@ python extract_vq.py --path=msrvtt --frame=224 # output: msrvtt_vq.pkl
 
 ### Pretrained checkpoint
 
-You can download pretrained checkpoint of Violet [here](https://drive.google.com/file/d/1RLbthdRIflxCFjRTcVV5jQJGP30_lNfg/view).
+You can download the pretrained checkpoint of Violet [here](https://drive.google.com/file/d/1RLbthdRIflxCFjRTcVV5jQJGP30_lNfg/view).
 
 Then, place the files as follows:
 
@@ -72,7 +72,7 @@ python main_retrieval.py ./args/args_msrvtt-retrieval_7k.json
 python main_retrieval.py ./args/args_msrvtt-retrieval_9k.json
 python eval_retrieval.py ./args/args_msrvtt-retrieval_eval.json
 ```
-You may modifty 'path_ckpt' of './args/args_msrvtt-retrieval_eval.json' for evaluation.
+You may modify 'path_ckpt' of './args/args_msrvtt-retrieval_eval.json' for evaluation.
 
 
 
